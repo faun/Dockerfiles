@@ -52,8 +52,6 @@ RUN /usr/local/rbenv/bin/rbenv rehash
 RUN sed -i 's|/usr/bin/env ruby.*$|/usr/bin/env ruby|; s|/usr/bin/ruby.*$|/usr/bin/env ruby|' \
   /usr/local/bin/rake /usr/local/bin/bundle /usr/local/bin/bundler
 
-RUN ruby -v
-
 #   Common development headers necessary for many Ruby gems,
 #   e.g. libxml for Nokogiri.
 RUN /build/devheaders.sh
