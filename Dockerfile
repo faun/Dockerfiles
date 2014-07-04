@@ -1,7 +1,7 @@
 FROM phusion/passenger-customizable:0.9.11
 
 MAINTAINER Sascha Faun Winter <github@faun.me>
-# VERSION 0.0.1
+# VERSION 0.1.0
 
 # Set correct environment variables.
 ENV HOME /root
@@ -37,17 +37,15 @@ RUN /usr/local/rbenv/plugins/ruby-build/install.sh
 # Add ruby-build to the PATH
 RUN echo 'export PATH="/usr/local/rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bashrc
 
-# Install openssl for Ruby
-RUN apt-get install -q -y libssl-dev
-
-# Install Ruby 2.1.2 via ruby-build and set as default
-RUN /usr/local/rbenv/bin/rbenv install --skip-existing 2.1.2
-RUN /usr/local/rbenv/bin/rbenv global 2.1.2
-RUN /usr/local/rbenv/bin/rbenv rehash
+# Install Ruby 2.1 from brightbox PPA
+RUN add-apt-repository ppa:brightbox/ruby-ng-experimental
+RUN apt-get update
+RUN apt-get install -q -y libssl-dev ruby2.1 ruby2.1-dev
 
 # Install base gems
 RUN echo "gem: --no-ri --no-rdoc" > /etc/gemrc
-RUN gem2.1 install rake bundler --no-rdoc --no-ri
+RUN gem install rake bundler rdoc --no-rdoc --no-ri
+RUN /usr/local/rbenv/bin/rbenv rehash
 
 ## Fix shebang lines in rake and bundler so that they're run with the currently
 ## configured default Ruby instead of the Ruby they're installed with.
