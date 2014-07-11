@@ -4,7 +4,7 @@ MAINTAINER Sascha Faun Winter <github@faun.me>
 # VERSION 0.1.0
 
 # Set correct environment variables
-ENV HOME /root
+ENV HOME /home
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update -q
 
@@ -28,6 +28,9 @@ RUN echo ". /etc/profile.d/rbenv.sh" >> ~/.bashrc
 
 # Add rbenv to the PATH
 RUN echo 'export PATH="/usr/local/rbenv/bin:$PATH"' >> ~/.bashrc
+
+# Make app user owner of /usr/local
+RUN chown -R app /usr/local
 
 # Install ruby-build
 RUN mkdir -p /usr/local/rbenv/plugins
@@ -61,3 +64,5 @@ RUN /build/nodejs.sh
 
 # Clean up APT when done
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+USER app
