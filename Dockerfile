@@ -1,7 +1,7 @@
 FROM phusion/passenger-customizable:0.9.11
 
 MAINTAINER Sascha Faun Winter <github@faun.me>
-# VERSION 0.1.0
+# VERSION 0.2.1
 
 # Set correct environment variables
 ENV HOME /home
@@ -44,6 +44,7 @@ RUN echo 'export PATH="/usr/local/rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bas
 RUN add-apt-repository ppa:brightbox/ruby-ng-experimental
 RUN apt-get update
 RUN apt-get install -q -y libssl-dev ruby2.1 ruby2.1-dev
+RUN /usr/local/rbenv/bin/rbenv install 2.1.2
 
 # Install base gems
 RUN echo "gem: --no-ri --no-rdoc" > /etc/gemrc
